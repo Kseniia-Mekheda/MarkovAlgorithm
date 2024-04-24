@@ -154,34 +154,34 @@ public:
 
 	String applyRule(String& inputString) const
 	{
-		String& result = inputString;
+		string result = inputString.getString();
 		for (const auto& rule : rules)
 		{
-			String pattern = rule.first;
-			String replacement = rule.second;
-			string resultStr(result.getString());
-			string patternStr(pattern.getString());
-			size_t position = resultStr.find(patternStr);
+			string pattern = rule.first.getString();
+			string replacement = rule.second.getString();
+			size_t position = result.find(pattern);
 			while (position != string::npos)
 			{
-				resultStr.replace(position, pattern.getSize(), replacement.getString());
-				position = resultStr.find(patternStr, position + replacement.getSize());
+				result.replace(position, pattern.size(), replacement);
+				position = result.find(pattern, position + replacement.size());
 			}
-			result = resultStr.c_str();
 		}
-
-		return result;
+		return String(result.c_str());
 	}
 
 };
 
 int main() {
 	MarkovAlgorithm MA;
-	MA.addRule(String("ab"), String("ba"));
+	MA.addRule(String("aa"), String("b"));
+	MA.addRule(String("aaa"), String("c"));
 	MA.addRule(String("cd"), String("e"));
-	MA.addRule(String("c"), String("d"));
+	MA.addRule(String("r"), String("R"));
+	MA.addRule(String("la"), String("mo"));
 
 	string expression;
+	cout << "Demonstration of the work of Markov Algorithm (rules are stated below): " << endl;
+	cout << "Rule 1: ab - - - - - - > ba\nRule 2: ba - - - - - - >  V\nRule 3: cd - - - - - - >  e\nRule 4:  r - - - - - - >  R\nRule 5: la - - - - - - > mo" << endl;
 	cout << "Enter an expression for Markov Algorithm: ";
 	cin >> expression;
 	const char* array = expression.c_str();
@@ -189,5 +189,18 @@ int main() {
 
 	String C = MA.applyRule(in);
 	cout << "Your result: " << C << endl;
+
+	MarkovAlgorithm M;
+	M.addRule(String("+|"), String("|+"));
+	M.addRule(String("+"), String(""));
+	M.addRule(String("|-|"), String("-"));
+	M.addRule(String("-"), String(""));
+	string expression2;
+	cout << "Enter Expression in such form (||+||-):" << endl;
+	cin >> expression2;
+	const char* array2 = expression2.c_str();
+	String A(array2);
+	String Result = M.applyRule(A);
+	cout << "Your result: " << Result << endl;
 	return 0;
 }

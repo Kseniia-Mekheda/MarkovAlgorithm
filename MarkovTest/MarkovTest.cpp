@@ -33,7 +33,7 @@ namespace MarkovTest
 			Assert::AreEqual(14, S.getSize());
 		}
 
-		TEST_METHOD(AlgorTest)
+		TEST_METHOD(AlgorithmTest)
 		{
 			MarkovAlgorithm MA;
 			MA.addRule(String("ab"), String("ba"));
@@ -43,7 +43,8 @@ namespace MarkovTest
 			string result = "ba";
 			const char* arr = result.c_str();
 			String C = MA.applyRule(in);
-			Assert::AreEqual(arr, in.getString());
+			Assert::AreEqual(arr, C.getString());
+
 		}
 	};
 }
